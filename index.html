@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#2F6B4F">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="יאללה מדברים">
+<title>יאללה מדברים — ערבית מדוברת</title>
+<style>
+:root{--bg:#FAF6EE;--ink:#1F2A24;--muted:#5D6B62;--olive:#2F6B4F;--olive2:#E3EFE7;--sand:#F1E7D3;--accent:#C9771F;--ok:#1E7A46;--okbg:#DFF3E6;--bad:#B3261E;--badbg:#FBE3E1;--line:#E2D9C6}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;padding-bottom:90px}
+.ar{font-family:"Noto Naskh Arabic","Geeza Pro","Traditional Arabic","Arial",serif;direction:rtl}
+#app{max-width:560px;margin:0 auto;padding:16px}
+h1{font-size:26px;margin:.2em 0;line-height:1.25}
+h2{font-size:21px}
+.hero{background:linear-gradient(160deg,#2F6B4F,#3E8462);color:#fff;border-radius:24px;padding:22px 20px;position:relative;overflow:hidden}
+.hero .logo{position:absolute;left:14px;top:-4px;font-size:72px;opacity:.18}
+.hero p{margin:.3em 0 0;opacity:.95;font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.stat{background:#fff;border-radius:16px;padding:12px 6px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.stat b{display:block;font-size:26px;color:var(--olive);line-height:1.2}
+.stat span{font-size:14px;color:var(--muted)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;border:0;border-radius:16px;font:inherit;font-weight:700;cursor:pointer;padding:12px 16px;margin:8px 0}
+.primary{background:var(--olive);color:#fff}
+.accent{background:var(--accent);color:#fff}
+.secondary{background:var(--olive2);color:var(--olive)}
+.ghost{background:transparent;color:var(--muted);text-decoration:underline;min-height:48px}
+.back{background:none;border:0;font:inherit;color:var(--olive);font-weight:700;min-height:48px;cursor:pointer;padding:0}
+.sec{font-size:15px;color:var(--muted);font-weight:700;margin:18px 4px 4px}
+.unit{display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:12px;margin:10px 0;border:2px solid transparent;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;width:100%;text-align:right;font:inherit;color:inherit}
+.unit.next{border-color:var(--accent)}
+.unit .em{font-size:28px;width:52px;height:52px;display:grid;place-items:center;background:var(--sand);border-radius:14px;flex:none}
+.unit .t{flex:1;min-width:0}.unit .t b{display:block}.unit .t small{color:var(--muted);font-size:15px}
+.badge{font-size:13px;padding:3px 9px;border-radius:99px;background:var(--okbg);color:var(--ok);font-weight:700;white-space:nowrap}
+.badge.nx{background:#FCEBD6;color:#8A4B0C}
+.warn{background:#FFF4DE;border:1px solid #F0C987;border-radius:14px;padding:12px;font-size:16px;margin:10px 0}
+#nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:4px 4px calc(4px + env(safe-area-inset-bottom));z-index:5}
+#nav button{flex:1;background:none;border:0;font:inherit;font-size:13px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:0;min-height:58px;cursor:pointer;justify-content:center}
+#nav button span{font-size:22px}
+#nav button.on{color:var(--olive);font-weight:800}
+body.inlesson #nav{display:none}
+body.inlesson{padding-bottom:200px}
+.lbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.x{width:48px;height:48px;border-radius:50%;border:0;background:#EFE8DA;font-size:20px;cursor:pointer;flex:none}
+.prog{flex:1;height:14px;background:#E9E1D1;border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--olive);border-radius:99px;transition:width .3s}
+.card{background:#fff;border-radius:22px;padding:22px 18px;box-shadow:0 2px 10px rgba(0,0,0,.06);text-align:center}
+.tag{display:inline-block;background:var(--sand);border-radius:99px;padding:3px 12px;font-size:14px;color:#7A5A2A;font-weight:700}
+.big{font-size:84px;line-height:1.25;color:var(--olive)}
+.tr{font-size:38px;font-weight:800;margin:8px 0 2px;line-height:1.3}
+.arw{font-size:30px;color:var(--muted);margin:2px 0}
+.he{font-size:22px;margin-top:6px}
+.note{background:#F6F1E6;border-radius:12px;padding:10px 12px;margin-top:14px;font-size:16px;text-align:right}
+.row{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.pill{min-height:52px;min-width:120px;border-radius:99px;border:2px solid var(--olive);background:#fff;color:var(--olive);font:inherit;font-weight:700;padding:8px 16px;cursor:pointer}
+.q{text-align:center;margin:4px 0 12px;font-size:20px;color:var(--muted)}
+.prompt{font-size:30px;font-weight:800;text-align:center;margin:6px 0;line-height:1.3}
+.center{display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0 16px}
+.bigplay{width:110px;height:110px;border-radius:50%;border:0;background:var(--olive);color:#fff;font-size:46px;cursor:pointer;box-shadow:0 6px 16px rgba(47,107,79,.35)}
+.opts{display:grid;gap:10px;margin-top:10px}
+.opt{min-height:60px;border-radius:16px;border:2px solid var(--line);background:#fff;font:inherit;font-size:21px;font-weight:700;cursor:pointer;padding:10px;color:inherit}
+.opt small{display:block;font-size:18px;color:var(--muted);font-weight:400}
+.opt.good{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.opt.badx{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
+.fb{position:fixed;left:0;right:0;bottom:0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));z-index:9;box-shadow:0 -4px 16px rgba(0,0,0,.12);animation:up .2s}
+.fb.ok{background:var(--okbg)}.fb.bad{background:var(--badbg)}
+.fb .in{max-width:560px;margin:0 auto}
+.fb h3{margin:0 0 2px;font-size:22px}
+.fb.ok h3{color:var(--ok)}.fb.bad h3{color:var(--bad)}
+.fb p{margin:0 0 6px;font-size:19px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.col{display:grid;gap:10px;align-content:start}
+.mt{min-height:66px;border-radius:16px;border:2px solid var(--line);background:#fff;font:inherit;font-size:19px;font-weight:700;cursor:pointer;padding:8px;color:inherit}
+.mt.sel{border-color:var(--accent);background:#FFF4E5}
+.mt.done{opacity:.35;background:var(--okbg);border-color:var(--ok);pointer-events:none}
+.mt.wrong{animation:shake .35s;border-color:var(--bad)}
+.mic{width:120px;height:120px;border-radius:50%;border:0;background:var(--accent);color:#fff;font-size:50px;cursor:pointer;box-shadow:0 6px 16px rgba(201,119,31,.35)}
+.mic.on{animation:pulse 1s infinite}
+.hint{color:var(--muted);text-align:center;margin:4px 0}
+.res{text-align:center;font-size:18px;min-height:28px;margin-top:8px}
+.dlg{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.bub{max-width:88%;padding:12px 14px 12px 44px;border-radius:18px;position:relative;cursor:pointer;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.07);text-align:right}
+.bub.a{align-self:flex-start;background:var(--olive2);border-top-right-radius:4px}
+.bub.b{align-self:flex-end;border-top-left-radius:4px}
+.bub.playing{outline:3px solid var(--accent)}
+.who{font-size:13px;color:var(--muted);font-weight:700}
+.btr{font-size:22px;font-weight:700;line-height:1.35}
+.bar{font-size:20px;color:var(--muted)}
+.bhe{font-size:16px;margin-top:4px;color:#33493d}
+.bhe.hid{display:none}
+.eye{position:absolute;top:4px;left:2px;background:none;border:0;font-size:20px;cursor:pointer;min-width:42px;min-height:42px}
+.dctl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dctl .btn{margin:0;min-height:52px;font-size:16px}
+.tip{background:#FFF8EC;border:2px solid #F3D7A8;border-radius:18px;padding:14px 16px;margin:12px 0}
+.tip b{color:#8A4B0C}
+.tip p{margin:.3em 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{background:#fff;border-radius:99px;padding:6px 12px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.search{width:100%;min-height:54px;border-radius:14px;border:2px solid var(--line);padding:10px 14px;font:inherit;background:#fff}
+.wrow{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:10px 12px;margin:8px 0;width:100%;border:0;font:inherit;text-align:right;cursor:pointer;color:inherit;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.wrow .w{flex:1;min-width:0}
+.wrow b{font-size:20px}
+.wrow .ar{color:var(--muted);font-size:19px;margin-inline-start:8px}
+.wrow small{display:block;color:var(--muted);font-size:16px}
+.set{background:#fff;border-radius:16px;padding:14px;margin:10px 0}
+.set h3{margin:0 0 6px;font-size:18px}
+.set label{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:50px}
+.set select,.set input[type=range]{font:inherit;min-height:44px;max-width:60%}
+.set input[type=checkbox]{width:28px;height:28px}
+table.leg{width:100%;border-collapse:collapse;font-size:16px}
+table.leg td{padding:7px 4px;border-bottom:1px solid #eee;vertical-align:top}
+table.leg td.ar{font-size:24px;text-align:center;width:48px}
+table.leg td:nth-child(2){font-weight:800;width:44px;text-align:center}
+.donebox{text-align:center;padding:20px 0}
+.donebox .e{font-size:80px}
+
+.fire{background:#fff;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06);border:2px solid #F3D7A8}
+.fire.lit{background:linear-gradient(160deg,#FFF6E8,#FFE9CC);border-color:#E9A54C}
+.fh{display:flex;align-items:center;gap:12px}
+.flame{font-size:46px;line-height:1}
+.fire.lit .flame{animation:flick 1.6s ease-in-out infinite}
+.fh b{font-size:34px;color:#B35A00;line-height:1}.fh span{font-weight:700}
+.fh small{display:block;color:var(--muted);font-size:14px}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:14px 0 8px;text-align:center}
+.day i{display:grid;place-items:center;width:36px;height:36px;margin:0 auto;border-radius:50%;background:#EFE8DA;font-style:normal;color:#fff;font-weight:800}
+.day.on i{background:#E07B16}
+.day.td i{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--olive)}
+.day span{font-size:13px;color:var(--muted)}
+.today{font-weight:700;text-align:center;margin:4px 0}
+.mbar{height:10px;background:#EFE3CE;border-radius:99px;overflow:hidden;margin-top:10px}
+.mbar i{display:block;height:100%;background:#E07B16;border-radius:99px}
+.ms{display:block;text-align:center;color:var(--muted);font-size:14px;margin-top:4px}
+.lvl{display:inline-block;background:rgba(255,255,255,.2);border-radius:99px;padding:3px 12px;font-size:15px;font-weight:700;margin-top:8px}
+.plan{margin:6px 0 0;padding-inline-start:22px}.plan li{margin:6px 0}.plan small{color:var(--muted)}
+.opt.picked{border-color:var(--olive);background:var(--olive2)}
+.opt.idk{color:var(--muted);font-weight:400;font-size:18px;border-style:dashed}
+.celebrate{text-align:center;background:linear-gradient(160deg,#FFF6E8,#FFE2BD);border-radius:20px;padding:14px;margin:10px 0;font-size:20px}
+.celebrate .flame{font-size:56px;display:block;animation:pop .6s}
+@keyframes flick{50%{transform:scale(1.08) rotate(-3deg)}}
+@keyframes pop{0%{transform:scale(.2)}70%{transform:scale(1.25)}}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes pulse{50%{transform:scale(1.08);box-shadow:0 0 0 14px rgba(201,119,31,.15)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav id="nav" aria-label="ניווט ראשי">
+  <button data-go="home" onclick="go('home')"><span>🏠</span>בית</button>
+  <button data-go="review" onclick="go('review')"><span>🔁</span>חזרה</button>
+  <button data-go="dict" onclick="go('dict')"><span>📖</span>מילון</button>
+  <button data-go="settings" onclick="go('settings')"><span>⚙️</span>הגדרות</button>
+</nav>
+<script>
+/* ================= תוכן הלימוד =================
+   פורמט פריט: ערבית | תעתיק עברי | פירוש | הערה | אות גדולה (רשות)
+   פורמט דיאלוג: דובר(A/B) | ערבית | תעתיק | תרגום                    */
+const UNITS=[
+{id:'u0',emoji:'😎',title:'כבר יודעים ערבית!',sub:'מילים שכבר יש בעברית',
+tip:'בעברית המדוברת יש עשרות מילים מערבית, ואתה כבר מכיר אותן. כאן תשמע איך הן נשמעות במקור ומה הן אומרות באמת.',
+items:`يلا | יאללה | קדימה, בוא נזוז | בדיוק כמו בעברית
+أحلى | אחלא | הכי טוב, יותר יפה | בעברית: "אחלה"
+مبسوط | מבסוט | שמח, מרוצה | לאישה: מבסוטה
+خلص | ח'לאץ | זהו, נגמר, מספיק | בעברית: "חלאס"
+يعني | יעני | כלומר | בדיוק כמו בסלנג
+والله | ואללה | באמת? / נשבע לך | מילולית: "באלוהים"
+أهلا | אהלן | שלום, ברוך הבא | תשובה: אהלין
+صحتين | צחתין | בתיאבון! | בעברית "סחתיין" זה כל הכבוד, בערבית אומרים את זה למי שאוכל
+تفضل | תפצ'ל | בבקשה, תתכבד | כשמגישים משהו. לאישה: תפצ'לי
+ان شاء الله | אנשאללה | אם ירצה השם | משמש גם ל"נקווה" וגם ל"אולי"
+مسكين | מסכין | מסכן | כמו בעברית
+تمام | תמאם | מצוין, בסדר גמור | שומעים את זה כל הזמן`,
+dialog:`A | يلا، تمام؟ | יאללה, תמאם? | נו, הכל טוב?
+B | تمام، مبسوط والله | תמאם, מבסוט ואללה | מצוין, ממש מרוצה
+A | أحلى! | אחלא! | אחלה!
+B | يلا، خلص | יאללה, ח'לאץ | יאללה, זהו`},
+
+{id:'u1',emoji:'👂',title:'הצלילים',sub:'11 צלילים שכדאי להכיר',
+tip:'רוב הצלילים בערבית קיימים גם בעברית. גרש (\') אחרי אות מסמן צליל אחר: ח\' / ע\' / ג\' / צ\'. ושני סודות שמקלים: ث ו-ذ נהגות במדוברת פשוט ת ו-ד.',
+items:`حليب | חליב | חלב | ح = ח עמוקה מהגרון, כמו ח של יוצאי עדות המזרח | ح
+خبز | ח'ובז | לחם | خ = ח' כמו ח/כ בעברית של היום | خ
+عين | עין | עין | ع = ע גרונית אמיתית: מכווצים את הגרון | ع
+غالي | ע'אלי | יקר | غ = ע' כמו ר גרונית (ר צרפתית) | غ
+جمل | ג'מל | גמל | ج = ג' כמו ג'ירפה | ج
+قهوة | קהווה | קפה | ق = ק. במשולש אומרים k, בערים לפעמים שומעים "אהווה" | ق
+صباح | צבאח | בוקר | ص = S כבדה, לא "ts"! כאילו "סַבּאח" עם לשון כבדה | ص
+أرض | ארץ' | אדמה, רצפה | ض = צ' (D כבדה) | ض
+طيب | טייב | טוב, טעים | ط = ט (T כבדה) | ط
+تلاتة | תלאתה | שלוש | ث במדוברת = ת. ש בעברית הופכת ל-ת: שלוש → תלאתה | ث
+دهب | דהב | זהב | ذ במדוברת = ד. ז בעברית הופכת ל-ד: זהב → דהב | ذ`},
+
+{id:'u2',emoji:'👋',title:'שלום ונימוסים',sub:'ברכות ותשובות',names:{A:'אני',B:'סמיר'},
+tip:'בערבית כל ברכה מקבלת תשובה "משודרגת": על בוקר טוב עונים בוקר של אור. מי שמכיר את הזוגות נשמע כמו מקומי.',
+items:`مرحبا | מרחבא | שלום, היי
+أهلين | אהלין | היי! (תשובה חמה) | תשובה ל"מרחבא"
+صباح الخير | צבאח אל-ח'יר | בוקר טוב
+صباح النور | צבאח א-נור | בוקר אור | התשובה ל"בוקר טוב"
+مسا الخير | מסא אל-ח'יר | ערב טוב | תשובה: מסא א-נור
+السلام عليكم | א-סלאמו עליכום | שלום עליכם | ברכה מכבדת שמתאימה לכל אחד
+وعليكم السلام | ועליכום א-סלאם | ועליכם שלום | התשובה
+كيفك؟ | כיפַכּ? | מה שלומך? | לגבר: כיפַכּ, לאישה: כיפִכּ
+منيح | מניח | טוב, בסדר | אישה אומרת: מניחה
+الحمد لله | אל-חמדולילה | תודה לאל (הכל טוב) | התשובה הכי נפוצה ל"מה שלומך"
+شكرا | שוכרן | תודה
+عفوا | עפוון | על לא דבר
+يعطيك العافية | יעטיכּ אל-עאפיה | כוח לך! (למי שעובד) | אומרים למוכר, לנהג, לכל מי שעובד. נפוץ מאוד במשולש
+الله يعافيك | אללה יעאפיכּ | תודה (שאלוהים ייתן לך בריאות) | התשובה ל"יעטיכּ אל-עאפיה"
+مع السلامة | מע א-סלאמה | להתראות | מילולית: "עם השלום"`,
+dialog:`A | مرحبا! | מרחבא! | היי!
+B | أهلين! كيفك؟ | אהלין! כיפַכּ? | היי! מה שלומך?
+A | منيح، الحمد لله. وانت؟ | מניח, אל-חמדולילה. ו-אנתַ? | טוב, תודה לאל. ואתה?
+B | الحمد لله. يعطيك العافية | אל-חמדולילה. יעטיכּ אל-עאפיה | תודה לאל. כוח לך
+A | الله يعافيك | אללה יעאפיכּ | תודה רבה
+B | مع السلامة | מע א-סלאמה | להתראות`},
+
+{id:'u3',emoji:'🙋',title:'אני ואתה',sub:'להציג את עצמך',names:{A:'יוסי',B:'אחמד'},
+tip:'הסיומות כמו בעברית: ־י = שלי (אסמי = שמי), ־ַכּ = שלך לגבר (אסמַכּ), ־ִכּ = שלך לאישה (אסמִכּ). ו-ב־ בתחילת פועל = עכשיו/בדרך כלל: בחכי = אני מדבר.',
+items:`انا | אנא | אני
+انت | אנתַ | אתה | לאישה: אנתִי
+انتِ | אנתִי | את
+هو | הוּוֶּה | הוא
+هي | הִיֶּה | היא
+احنا | אחנא | אנחנו
+اسمي | אסמי | שמי | ־י = שלי, כמו בעברית
+شو اسمك؟ | שו אסמַכּ? | איך קוראים לך? | לאישה: שו אסמִכּ?
+من وين انت؟ | מן וין אנתַ? | מאיפה אתה?
+انا من حيفا | אנא מן חיפא | אני מחיפה | מחליפים את חיפא בעיר שלך
+تشرفنا | תשַרַּפנא | נעים מאוד
+بتحكي عبري؟ | בתחכי עברי? | אתה מדבר עברית?
+بحكي عربي شوي | בחכי ערבי שוַוי | אני מדבר קצת ערבית
+مش فاهم | מש פאהם | אני לא מבין | אישה: מש פאהמה. "מש" = לא
+شوي شوي | שוַוי שוַוי | לאט לאט`,
+dialog:`A | مرحبا، شو اسمك؟ | מרחבא, שו אסמַכּ? | היי, איך קוראים לך?
+B | اسمي احمد. وانت؟ | אסמי אחמד. ו-אנתַ? | קוראים לי אחמד. ואתה?
+A | اسمي يوسي. تشرفنا! | אסמי יוסי. תשרפנא! | אני יוסי. נעים מאוד!
+B | تشرفنا. من وين انت؟ | תשרפנא. מן וין אנתַ? | נעים מאוד. מאיפה אתה?
+A | انا من حيفا. بحكي عربي شوي | אנא מן חיפא. בחכי ערבי שוַוי | אני מחיפה. אני מדבר קצת ערבית
+B | ممتاز! انا من الطيبة | ממתאז! אנא מן א-טייבה | מצוין! אני מטייבה`},
+
+{id:'u4',emoji:'👯',title:'מילים תאומות',sub:'עברית וערבית: אחיות',
+tip:'עברית וערבית הן שפות אחיות. חוקי ההמרה: ש→ס (שמש→שמס), ש→ת (שום→תום), ז→ד (אוזן→אידן). נסה לנחש לפני שאתה שומע!',
+items:`بيت | בית | בית | זהה!
+يوم | יום | יום | זהה!
+شمس | שמס | שמש | ש→ס
+راس | ראס | ראש | ש→ס
+لسان | לסאן | לשון | ש→ס
+سنة | סנה | שנה | ש→ס
+سوق | סוק | שוק | ש→ס
+اسم | אסם | שם | ש→ס
+توم | תום | שום | ש→ת
+اذن | אידן | אוזן | ז→ד
+كلب | כלב | כלב | זהה!
+بصل | בצל | בצל | זהה! (צ כאן = S כבדה)
+شمال | שמאל | שמאל | זהה!
+يمين | ימין | ימין | זהה!
+كبير | כביר | גדול | כמו "כביר" בעברית
+مدينة | מדינה | עיר | בערבית מדינה = עיר`,
+dialog:`A | وين البيت؟ | וין אל-בית? | איפה הבית?
+B | شمال، جنب السوق | שמאל, ג'מב א-סוק | שמאלה, ליד השוק
+A | البيت كبير! | אל-בית כביר! | הבית גדול!
+B | آه، والله | אה, ואללה | כן, באמת`},
+
+{id:'u5',emoji:'⚠️',title:'מילים מטעות',sub:'נשמעות עבריות, אבל לא',
+tip:'יש מילים שנשמעות עבריות אבל אומרות משהו אחר לגמרי. כדאי להכיר אותן לפני שמזמינים "לחמה" ומקבלים בשר 😄',
+items:`لحمة | לחמה | בשר | לא לחם! לחם = ח'ובז
+خبز | ח'ובז | לחם
+كيف | כיף | איך | לא הנאה! כיפַכּ = איך אתה (מה שלומך)
+دود | דוד | תולעים | לא דוד! דוד = עם (אח של אבא) או ח'אל (אח של אמא)
+عم | עם | דוד (אח של אבא) | לא "עם"!
+بكرة | בוכרה | מחר | לא בוקר!
+الصبح | א-צובח | בבוקר
+سفر | ספר | נסיעה, טיול | לא ספר!
+كتاب | כתאב | ספר | מהשורש כ-ת-ב, כמו "כתב"
+جمال | ג'מאל | יופי | גמל = ג'מל`,
+dialog:`A | بدي لحمة وخبز | בדי לחמה ו-ח'ובז | אני רוצה בשר ולחם
+B | تمام. بكرة الصبح | תמאם. בוכרה א-צובח | בסדר. מחר בבוקר
+A | كيف؟ | כיף? | איך?
+B | عمي بيجيب | עמי ביג'יב | הדוד שלי מביא`},
+
+{id:'u6',emoji:'🔢',title:'מספרים',sub:'1 עד 10, מאה ואלף',
+tip:'הרבה מספרים דומים לעברית: ארבעה, שבעה, עשרה. ש בעברית הופכת ל-ת או ל-ס: שלוש→תלאתה, שש→סתה, שמונה→תמאניה.',
+items:`واحد | ואחד | 1 (אחד)
+تنين | תנין | 2 (שתיים)
+تلاتة | תלאתה | 3 (שלוש) | ש→ת
+اربعة | ארבעה | 4 (ארבע) | זהה!
+خمسة | ח'מסה | 5 (חמש)
+ستة | סתה | 6 (שש) | ש→ס
+سبعة | סבעה | 7 (שבע) | ש→ס
+تمانية | תמאניה | 8 (שמונה) | ש→ת
+تسعة | תסעה | 9 (תשע)
+عشرة | עשרה | 10 (עשר) | זהה!
+مية | מיה | 100 (מאה)
+الف | אלף | 1000 (אלף) | זהה!`,
+dialog:`A | قديش هاد؟ | קדיש האד? | כמה זה?
+B | عشرة شيكل | עשרה שיקל | עשרה שקל
+A | خمسة؟ | ח'מסה? | חמישה?
+B | لا، سبعة. خلص! | לא, סבעה. ח'לאץ! | לא, שבעה. סגרנו!`},
+
+{id:'u7',emoji:'👨‍👩‍👧',title:'משפחה',sub:'אבא, אמא, אחים וילדים',names:{A:'אני',B:'פאטמה'},
+tip:'כמו בעברית מוסיפים ־י כדי לומר "שלי": אח\'וי = אחי, אח\'תי = אחותי. שים לב: אח בערבית נאמר עם ח\' (خ).',
+items:`عيلة | עילה | משפחה
+ابوي | אבוי | אבא שלי
+امي | אמי | אמא שלי
+اخوي | אח'וי | אחי
+اختي | אח'תי | אחותי
+ابني | אבני | הבן שלי
+بنتي | בנתי | הבת שלי
+اولاد | אולאד | ילדים | יחיד: ולד = ילד
+جوزي | ג'וזי | בעלי
+مرتي | מַרַתי | אשתי
+سيدي | סידי | סבא שלי
+ستي | סִתי | סבתא שלי
+عندي | ענדי | יש לי | ענדַכּ = יש לך`,
+dialog:`B | عندك اولاد؟ | ענדַכּ אולאד? | יש לך ילדים?
+A | آه، ولد وبنت | אה, ולד ו-בנת | כן, בן ובת
+B | الله يخليهم | אללה יח'ליהום | שאלוהים ישמור עליהם
+A | وانتِ؟ | ו-אנתִי? | ואת?
+B | عندي تلات اولاد | ענדי תלאת אולאד | יש לי שלושה ילדים`},
+
+{id:'u8',emoji:'❓',title:'מילות שאלה',sub:'מה, איפה, מי, כמה',
+tip:'עם 7 מילים שואלים כמעט הכל. ושתי מתנות: "מין" = מי, ו"אימתא" = מתי (כמו "אימתי" בעברית).',
+items:`شو | שו | מה
+وين | וין | איפה
+مين | מין | מי
+ليش | ליש | למה
+كيف | כיף | איך
+قديش | קדיש | כמה
+امتى | אימתא | מתי | כמו "אימתי" בעברית
+شو هاد؟ | שו האד? | מה זה?
+وين الحمام؟ | וין אל-חמאם? | איפה השירותים?
+قديش الساعة؟ | קדיש א-סאעה? | מה השעה?`,
+dialog:`A | وين الحمام؟ | וין אל-חמאם? | איפה השירותים?
+B | هناك، شمال | הונאכּ, שמאל | שם, שמאלה
+A | شكرا. قديش الساعة؟ | שוכרן. קדיש א-סאעה? | תודה. מה השעה?
+B | الساعة عشرة | א-סאעה עשרה | השעה עשר`},
+
+{id:'u9',emoji:'🆘',title:'הישרדות',sub:'רוצה, יש, אין, לא מבין',
+tip:'"בדי" = אני רוצה, "בדַּכּ" = אתה רוצה. לשלילה מוסיפים "מא" לפני: מא בדי = אני לא רוצה, מא פי = אין.',
+items:`بدي | בדי | אני רוצה
+بدك؟ | בדַּכּ? | אתה רוצה?
+ما بدي | מא בדי | אני לא רוצה
+في | פי | יש
+ما في | מא פי | אין
+آه | אה | כן
+لا | לא | לא | זהה!
+ما بعرف | מא בערף | אני לא יודע
+هون | הון | פה
+هناك | הונאכּ | שם
+بعدين | בעדין | אחר כך
+احكي بشويش | אחכי בשוויש | דבר לאט | שימושי כשלא מבינים
+كمان مرة | כמאן מרה | עוד פעם
+مزبوط | מזבוט | נכון
+سكر | סוכר | סוכר | זהה!`,
+dialog:`A | بدك قهوة؟ | בדַּכּ קהווה? | אתה רוצה קפה?
+B | آه، بدي. في سكر؟ | אה, בדי. פי סוכר? | כן. יש סוכר?
+A | ما في سكر هون | מא פי סוכר הון | אין פה סוכר
+B | مش مشكلة. شكرا | מש משכלה. שוכרן | לא בעיה. תודה`},
+
+{id:'u10',emoji:'☕',title:'אוכל וקניות',sub:'בחומוסייה ובשוק',names:{A:'המוכר',B:'אני'},
+tip:'בחומוסייה או בשוק: "בדי..." ועוד "לו סמחת" (בבקשה) = משפט מושלם.',
+items:`لو سمحت | לו סמחת | בבקשה (כשמבקשים)
+قهوة | קהווה | קפה
+شاي | שאי | תה
+مي | מיי | מים
+حمص | חומוץ | חומוס
+فلافل | פלאפל | פלאפל
+جاج | ג'אג' | עוף
+سلطة | סלטה | סלט
+زاكي | זאכי | טעים
+قديش هاد؟ | קדיש האד? | כמה זה עולה?
+غالي | ע'אלי | יקר
+رخيص | רח'יץ | זול
+الحساب | אל-חסאב | החשבון`,
+dialog:`A | أهلا، تفضل | אהלן, תפצ'ל | שלום, בבקשה
+B | بدي حمص وفلافل لو سمحت | בדי חומוץ ו-פלאפל לו סמחת | אני רוצה חומוס ופלאפל בבקשה
+A | بدك شي تشرب؟ | בדַּכּ שי תשרב? | רוצה משהו לשתות?
+B | مي. قديش الحساب؟ | מיי. קדיש אל-חסאב? | מים. כמה החשבון?
+A | تلاتين شيكل | תלאתין שיקל | שלושים שקל
+B | تفضل. زاكي كتير! | תפצ'ל. זאכי כתיר! | בבקשה. טעים מאוד!
+A | صحتين! | צחתין! | בתיאבון!`},
+
+{id:'u11',emoji:'🫒',title:'מדברים כמו במשולש',sub:'ביטויים מהרחוב',names:{A:'אני',B:'מוחמד'},
+tip:'את הביטויים האלה שומעים כל יום בטייבה, בטירה ובאום אל-פחם. וחוץ מזה, ערבים בישראל משלבים המון עברית ("בסדר", "מחשב", "ביטוח לאומי"), אז מותר לשלב גם לך.',
+items:`ماشي | מאשי | אוקיי, בסדר
+شو الأخبار؟ | שו אל-אח'באר? | מה נשמע? (מה החדשות)
+كيف الصحة؟ | כיף א-צחה? | מה שלומך? (איך הבריאות)
+هسا | הסא | עכשיו | בכפרים ובמשולש. בערים: הלא
+يا زلمة | יא זלמה | בנאדם! אחי! | זלמה = גבר
+على راسي | עלא ראסי | בכיף! על הראש שלי | תשובה חמה לבקשה
+ما في مشكلة | מא פי משכלה | אין בעיה
+الله يسلمك | אללה יסלמכּ | תודה (שאלוהים ישמור עליך) | עונים כך ל"שוכרן" או בפרידה
+مبروك | מברוכּ | מזל טוב
+وين ساكن؟ | וין סאכן? | איפה אתה גר?
+تعال | תעאל | בוא | לאישה: תעאלי
+بنشوفك | בנשופַכּ | נתראה
+كتير | כתיר | הרבה, מאוד`,
+dialog:`B | يا زلمة! شو الأخبار؟ | יא זלמה! שו אל-אח'באר? | אחי! מה נשמע?
+A | تمام، الحمد لله. وين ساكن هسا؟ | תמאם, אל-חמדולילה. וין סאכן הסא? | מצוין, תודה לאל. איפה אתה גר עכשיו?
+B | في الطيبة. تعال عندي بكرة | פי א-טייבה. תעאל ענדי בוכרה | בטייבה. בוא אליי מחר
+A | على راسي! | עלא ראסי! | בכיף!
+B | ماشي. بنشوفك | מאשי. בנשופַכּ | סגור. נתראה
+A | الله يسلمك | אללה יסלמכּ | תודה, שמור על עצמך`}
+];
+
+/* ================= הכנת נתונים ================= */
+const parse=t=>t.trim().split('\n').map(l=>l.split('|').map(s=>s.trim()));
+const ALL=[],BYID={};
+UNITS.forEach((u,ui)=>{
+  u.list=parse(u.items).map((f,i)=>{const it={id:u.id+'_'+i,ar:f[0],tr:f[1],he:f[2],note:f[3]||'',big:f[4]||'',unit:ui};ALL.push(it);BYID[it.id]=it;return it});
+  u.dlg=u.dialog?parse(u.dialog).map(f=>({who:f[0],ar:f[1],tr:f[2],he:f[3]})):[];
+  u.names=Object.assign({A:'אני',B:'חבר'},u.names||{});
+});
+
+/* ================= רמות ================= */
+const LEVELS=[
+ {name:'מתחיל',emoji:'🌱',units:[0,1,2,3],desc:'מתחילים מהבסיס: מילים שכבר מכירים, צלילים, ברכות והיכרות.'},
+ {name:'צעדים ראשונים',emoji:'🌿',units:[4,5,6,7],desc:'את הבסיס אתה מכיר. עכשיו בונים אוצר מילים: מילים תאומות, מילים מטעות, מספרים ומשפחה.'},
+ {name:'מסתדר',emoji:'🌳',units:[8,9,10],desc:'אתה כבר מבין לא מעט. עכשיו שואלים שאלות, מסתדרים ביומיום וקונים בשוק.'},
+ {name:'מדבר',emoji:'🫒',units:[11],desc:'אתה מסתדר יפה! נשארו הביטויים של הרחוב והמשולש, וחזרה כדי לשמור על מה שיש.'}];
+const GOALS={1:'5 דקות',2:'10 דקות',3:'15 דקות ומעלה'};
+
+/* ================= שמירה ================= */
+const KEY='yalla-medabrim-v1';
+const INT=[0,1,3,7,16,35];
+let S={done:{},srs:{},days:[],level:null,skip:{},goal:2,log:{d:'',n:0},settings:{script:true,rate:0.85,voice:'',mic:'ar-IL'}};
+try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){S=Object.assign(S,d);S.settings=Object.assign({script:true,rate:0.85,voice:'',mic:'ar-IL'},d.settings||{})}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const pad=n=>String(n).padStart(2,'0');
+function dstr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+const today=()=>dstr(new Date());
+function addDays(n){const d=new Date();d.setDate(d.getDate()+n);return dstr(d)}
+function markDay(){const d=today(),isNew=!S.days.includes(d);if(isNew)S.days.push(d);if(S.log.d!==d)S.log={d,n:0};S.log.n++;return {isNew,goalHit:S.log.n===S.goal,ms:isNew&&MNAME[S.days.length]}}
+const MILES=[1,3,7,14,21,30,50,75,100,150,200,365];
+const MNAME={1:'צעד ראשון',3:'מתחממים',7:'שבוע של ערבית',14:'שבועיים של ערבית',21:'שלושה שבועות',30:'חודש של ערבית!',50:'חמישים ימים',75:'75 ימים',100:'100 ימי תרגול!',150:'150 ימים',200:'200 ימים',365:'שנה של ערבית!'};
+const dueIds=()=>Object.keys(S.srs).filter(id=>BYID[id]&&S.srs[id].due<=today());
+
+/* ================= עזרים ================= */
+const $=s=>document.querySelector(s);
+const app=$('#app');
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.random()*a.length|0];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const arHtml=(ar,cls='arw')=>S.settings.script?`<div class="${cls} ar" lang="ar">${esc(ar)}</div>`:'';
+function vib(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
+
+/* ================= הקראה ================= */
+const TTS='speechSynthesis' in window;
+let voices=[],allVoicesLoaded=false;
+function loadVoices(){if(!TTS)return;const v=speechSynthesis.getVoices();allVoicesLoaded=v.length>0;voices=v.filter(x=>/^ar/i.test(x.lang));}
+if(TTS){loadVoices();speechSynthesis.onvoiceschanged=()=>{loadVoices();if(cur==='home'&&!L)renderHome();if(cur==='settings'&&!L)renderSettings()}}
+function arVoice(){return voices.find(v=>v.name===S.settings.voice)||voices.find(v=>/ar[-_](IL|PS|JO|LB|SY)/i.test(v.lang))||voices.find(v=>/google/i.test(v.name))||voices[0]}
+function cleanTxt(t){return t.replace(/\(.*?\)/g,'').replace(/\.\.\./g,'').trim()}
+function speak(text,opt={}){
+  let fired=false;const fin=()=>{if(fired)return;fired=true;opt.onend&&opt.onend()};
+  if(!TTS){setTimeout(fin,400);return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(cleanTxt(text));
+  const v=arVoice();if(v){u.voice=v;u.lang=v.lang}else u.lang='ar-SA';
+  u.rate=opt.slow?0.55:S.settings.rate;
+  u.onend=fin;u.onerror=fin;
+  setTimeout(()=>speechSynthesis.speak(u),60);
+  if(opt.onend)setTimeout(fin,2500+text.length*260);
+}
+function play(id,slow){const it=BYID[id];if(it)speak(it.ar,{slow:!!slow})}
+
+/* ================= זיהוי דיבור ================= */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let micBlocked=false;
+const canMic=()=>!!SR&&!micBlocked;
+function norm(s){return s.replace(/[ً-ْٰـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[^ء-ي ]/g,'').replace(/\s+/g,' ').trim()}
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function sim(a,b){if(!a||!b)return 0;return 1-lev(a,b)/Math.max(a.length,b.length)}
+let rec=null;
+function listen(target,cb){
+  let done=false;const fin=r=>{if(done)return;done=true;cb(r)};
+  try{rec&&rec.abort()}catch(e){}
+  try{speechSynthesis.cancel()}catch(e){}
+  rec=new SR();rec.lang=S.settings.mic;rec.maxAlternatives=5;rec.interimResults=false;rec.continuous=false;
+  rec.onresult=e=>{const alts=[...e.results[0]].map(a=>a.transcript);const t=norm(cleanTxt(target));
+    const best=Math.max(...alts.map(a=>{const n=norm(a);return (n.includes(t)&&t.length>1)?1:sim(n,t)}));
+    fin({ok:best>=0.6,heard:alts[0],score:best})};
+  rec.onerror=e=>fin({error:e.error});
+  rec.onend=()=>fin({error:'no-speech'});
+  try{rec.start()}catch(e){fin({error:'start'})}
+}
+function micMsg(r){
+  if(r.error==='not-allowed'||r.error==='service-not-allowed')return '🔒 צריך לאשר גישה למיקרופון בדפדפן.';
+  if(r.error==='no-speech')return '🤫 לא שמעתי כלום, נסה שוב קרוב יותר לטלפון.';
+  if(r.error)return '⚠️ זיהוי הדיבור לא זמין כרגע. אפשר להמשיך.';
+  return r.ok?`✅ מעולה! שמעתי: <span class="ar" lang="ar">${esc(r.heard)}</span>`:`🔁 כמעט! שמעתי: <span class="ar" lang="ar">${esc(r.heard||'…')}</span>. נסה שוב.`;
+}
+
+/* ================= ניווט ================= */
+let cur='home',L=null;
+function go(p){stopAll();L=null;T=null;document.body.classList.remove('inlesson');cur=p;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.go===p));
+  ({home:renderHome,review:renderReview,dict:()=>renderDict(),settings:renderSettings})[p]();window.scrollTo(0,0)}
+
+/* ================= בית ================= */
+function nextUnit(){return UNITS.findIndex(u=>!S.done[u.id]&&!S.skip[u.id])}
+function voiceWarn(){
+  if(!TTS)return `<div class="warn">🔇 הדפדפן הזה לא תומך בהקראה. נסה Chrome באנדרואיד או Safari באייפון.</div>`;
+  if(allVoicesLoaded&&!voices.length)return `<div class="warn">🔇 לא נמצא קול ערבי במכשיר. <b>באנדרואיד:</b> הגדרות ← נגישות / שפה ← פלט המרת טקסט לדיבור ← מנוע Google ← התקנת נתוני קול ← ערבית. <b>באייפון:</b> הגדרות ← נגישות ← תוכן מוקרא ← קולות ← ערבית.</div>`;
+  return '';
+}
+function practiceCard(){
+  const n=S.days.length,td=today(),did=S.days.includes(td),cnt=S.log.d===td?S.log.n:0;
+  const nm=MILES.find(m=>m>n),prev=[...MILES].reverse().find(m=>m<=n)||0;
+  const wk=[];for(let k=6;k>=0;k--){const dt=new Date();dt.setDate(dt.getDate()-k);const ds=dstr(dt);wk.push({on:S.days.includes(ds),td:k===0,l:'אבגדהוש'[dt.getDay()]})}
+  return `<div class="fire ${did?'lit':''}">
+   <div class="fh"><span class="flame" aria-hidden="true">${did?'🔥':'🪵'}</span><div><b>${n}</b> <span>ימי תרגול</span><small>לא חייב ברצף: כל יום שהתאמנת נספר</small></div></div>
+   <div class="week" aria-label="השבוע האחרון">${wk.map(x=>`<div class="day ${x.on?'on':''} ${x.td?'td':''}"><i>${x.on?'✓':''}</i><span>${x.td?'היום':x.l+"'"}</span></div>`).join('')}</div>
+   <div class="today">${did?(cnt>=S.goal?`🎯 השלמת את היעד היומי (${cnt}/${S.goal})`:`✓ התאמנת היום · יעד יומי: ${cnt}/${S.goal}`):`עוד לא התאמנת היום · יעד: ${S.goal} ${S.goal>1?'פעילויות':'פעילות'}`}</div>
+   ${nm?`<div class="mbar"><i style="width:${Math.round((n-prev)/(nm-prev)*100)}%"></i></div><small class="ms">עוד ${nm-n} ${nm-n===1?'יום':'ימים'} להישג: 🏅 ${MNAME[nm]}</small>`:''}
+  </div>`;
+}
+function unitBtn(i,nx){const u=UNITS[i];
+  return `<button class="unit ${i===nx?'next':''}" onclick="openUnit(${i})">
+     <div class="em" aria-hidden="true">${u.emoji}</div>
+     <div class="t"><b>${esc(u.title)}</b><small>${esc(u.sub)} · ${u.list.length} מילים</small></div>
+     ${S.done[u.id]?'<span class="badge">✓ הושלם</span>':S.skip[u.id]?'<span class="badge">✓ כבר יודע</span>':i===nx?'<span class="badge nx">הבא בתור</span>':''}
+   </button>`}
+function renderHome(){
+  const learned=Object.keys(S.srs).length,due=dueIds().length,nx=nextUnit(),lv=S.level;
+  const fresh=lv===null&&!learned;
+  app.innerHTML=`
+  <header class="hero"><div class="logo ar" aria-hidden="true">يلا</div>
+    <h1>יאללה מדברים</h1>
+    <p>ערבית מדוברת של ארץ ישראל, בתעתיק עברי, בקול ובשלבים. קודם מדברים, אחר כך קוראים.</p>
+    ${lv!==null?`<span class="lvl">${LEVELS[lv].emoji} רמה ${lv+1}: ${LEVELS[lv].name}</span>`:''}</header>
+  ${fresh?`<div class="tip"><b>🧭 בוא נמצא את הרמה שלך</b><p>מבחן קצר של 3 דקות, ואחריו תוכנית לימוד שמתאימה בדיוק לך.</p>
+     <button class="btn primary" onclick="startTest()">📝 למבחן רמה</button>
+     <button class="btn secondary" onclick="setZero()">🌱 אני מתחיל מאפס</button></div>`:''}
+  ${practiceCard()}
+  ${voiceWarn()}
+  ${due?`<button class="btn accent" onclick="startReview(false)">🔁 חזרה יומית · ${due} מילים</button>`:''}
+  ${!fresh?(nx>=0?`<button class="btn primary" onclick="openUnit(${nx})">▶ השיעור הבא שלך: ${esc(UNITS[nx].title)}</button>`:`<div class="tip"><b>🏆 סיימת את כל התוכנית!</b><p>המשך לחזור כל יום, ונסה לדבר עם שכנים, מוכרים ועמיתים.</p></div>`):''}
+  <div class="stats">
+    <div class="stat"><b>${learned}</b><span>מילים שלמדת</span></div>
+    <div class="stat"><b>${due}</b><span>לחזרה היום</span></div>
+  </div>
+  ${LEVELS.map((V,li)=>`<div class="sec">${V.emoji} רמה ${li+1}: ${V.name}${lv===li?' · אתה כאן':''}</div>${V.units.map(i=>unitBtn(i,nx)).join('')}`).join('')}`;
+}
+function setZero(){S.level=0;S.skip={};save();renderHome()}
+
+/* ================= מבחן רמה ================= */
+let T=null;
+function startTest(){stopAll();L=null;document.body.classList.add('inlesson');
+  T={step:'self',lv:0,qs:[],pos:0,score:[0,0,0,0],wrong:[],n:0};renderTest()}
+function levelQs(li){
+  const seen=new Set(),pool=shuffle(LEVELS[li].units.flatMap(u=>UNITS[u].list)).filter(it=>{if(seen.has(it.tr))return false;seen.add(it.tr);return true}).slice(0,3);
+  const types=shuffle(['listen','m2t','listen']);
+  return pool.map((it,k)=>{const t=types[k],f=t==='listen'?'he':'tr';return {t,it,f,lv:li,opts:opts(it,f)}});
+}
+function renderTest(){
+  const pct=T.step==='q'?Math.round(T.n/12*100):0;
+  const top=`<div class="lbar"><button class="x" onclick="go('home')" aria-label="יציאה מהמבחן">✕</button><div class="prog"><i style="width:${pct}%"></i></div></div>`;
+  if(T.step==='self'){app.innerHTML=top+`<h1>📝 מבחן רמה</h1><h2 class="q">כמה ערבית אתה יודע היום?</h2><div class="opts">
+    ${['🌱 בכלל לא, מתחיל מאפס','🙂 כמה מילים מהסלנג ומהרחוב','🌳 מסתדר במשפטים פשוטים','🫒 מנהל שיחות קצרות'].map((t,i)=>`<button class="opt" onclick="T.self=${i};T.step='goal';renderTest()">${t}</button>`).join('')}</div>`;return}
+  if(T.step==='goal'){app.innerHTML=top+`<h2 class="q">כמה זמן ביום תרצה להתאמן?</h2><div class="opts">
+    ${[1,2,3].map(g=>`<button class="opt" onclick="S.goal=${g};testGo()">⏱ ${GOALS[g]}</button>`).join('')}</div><p class="hint">אפשר לשנות בכל רגע בהגדרות.</p>`;return}
+  const q=T.qs[T.pos];
+  app.innerHTML=top+`<p class="hint">שאלה ${T.n+1} · אם לא יודעים, זה בסדר. לוחצים "לא יודע".</p>`+
+   (q.t==='listen'?`<h2 class="q">מה שמעת?</h2><div class="center"><button class="bigplay" onclick="play('${q.it.id}')" aria-label="השמע שוב">🔊</button></div>`
+     :`<h2 class="q">איך אומרים בערבית?</h2><div class="prompt">${esc(q.it.he)}</div>`)+
+   `<div class="opts">${q.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="testAns(${i})">${esc(o[q.f])}</button>`).join('')}
+    <button class="opt idk" id="oidk" onclick="testAns(-1)">🤷 לא יודע</button></div>`;
+  window.scrollTo(0,0);
+  if(q.t==='listen')setTimeout(()=>play(q.it.id),350);
+}
+function testGo(){if(T.self===0){finishTest(0);return}T.step='q';T.qs=levelQs(0);T.pos=0;renderTest()}
+function testAns(i){
+  const q=T.qs[T.pos];if(q.done)return;q.done=true;
+  const ok=i>=0&&q.opts[i].id===q.it.id;
+  (i>=0?$('#o'+i):$('#oidk')).classList.add('picked');
+  if(ok)T.score[q.lv]++;else T.wrong.push(q.it.id);
+  T.n++;
+  setTimeout(()=>{
+    if(!T)return;
+    T.pos++;
+    if(T.pos<T.qs.length){renderTest();return}
+    if(T.score[T.lv]>=2&&T.lv<3){T.lv++;T.qs=levelQs(T.lv);T.pos=0;renderTest();return}
+    finishTest(T.score[T.lv]>=2?T.lv+1:T.lv);
+  },450);
+}
+function finishTest(passed){
+  S.level=Math.min(passed,3);S.skip={};
+  for(let li=0;li<passed;li++)LEVELS[li].units.forEach(ui=>{const u=UNITS[ui];if(!S.done[u.id])S.skip[u.id]=true;
+    u.list.forEach(it=>{if(!S.srs[it.id])S.srs[it.id]={box:2,due:addDays(2)}})});
+  T.wrong.forEach(id=>{if(S.srs[id])S.srs[id]={box:1,due:today()}});
+  const di=markDay();save();
+  const lv=LEVELS[S.level],todo=UNITS.filter(u=>!S.done[u.id]&&!S.skip[u.id]);
+  const upd={1:.5,2:1,3:1.5}[S.goal],days=Math.ceil(todo.length/upd);
+  const answered=T.n,right=T.score.reduce((a,b)=>a+b,0);
+  app.innerHTML=`<div class="donebox"><div class="e">${lv.emoji}</div><h1>הרמה שלך: ${lv.name}</h1>
+    ${answered?`<p style="font-size:19px">ענית נכון על ${right} מתוך ${answered} שאלות</p>`:''}<p>${lv.desc}</p></div>
+  ${di.isNew?`<div class="celebrate"><span class="flame">🔥</span><b>+1 יום תרגול!</b> סה״כ ${S.days.length===1?'יום אחד':S.days.length+' ימים'}</div>`:''}
+  ${passed>0?`<div class="tip"><b>✓ דילגנו על ${Object.keys(S.skip).length} יחידות שאתה כבר מכיר</b><p>המילים שלהן נכנסו לחזרה כדי לוודא שהן באמת יושבות.${T.wrong.length?' מילים שטעית בהן יחכו לך כבר היום.':''}</p></div>`:''}
+  <div class="set"><h3>📅 התוכנית האישית שלך</h3>
+   ${todo.length?`<p style="margin:0">יעד יומי: ${GOALS[S.goal]}. בקצב הזה תסיים את התוכנית בעוד כ-${days} ימי תרגול.</p>
+   <ol class="plan">${todo.map((u,k)=>`<li>${u.emoji} ${esc(u.title)} <small>· יום ${Math.floor(k/upd)+1}</small></li>`).join('')}</ol>`
+   :`<p style="margin:0">אתה כבר מכיר את כל החומר! עכשיו תתמקד בחזרה היומית ובדיאלוגים במצב צל.</p>`}
+  </div>
+  ${todo.length?`<button class="btn primary" onclick="go('home');openUnit(${UNITS.indexOf(todo[0])})">▶ מתחילים: ${esc(todo[0].title)}</button>`:''}
+  <button class="btn secondary" onclick="go('home')">לדף הבית</button>`;
+  window.scrollTo(0,0);T=null;
+}
+
+/* ================= יחידה ================= */
+function openUnit(i){
+  stopAll();const u=UNITS[i];
+  app.innerHTML=`<button class="back" onclick="go('home')">→ חזרה</button>
+  <div style="font-size:48px">${u.emoji}</div>
+  <h1>יחידה ${i}: ${esc(u.title)}</h1>
+  <div class="tip"><b>💡 הסוד</b><p>${esc(u.tip)}</p></div>
+  <div class="chips">${u.list.slice(0,8).map(it=>`<span class="chip">${esc(it.tr)}</span>`).join('')}${u.list.length>8?'<span class="chip">…</span>':''}</div>
+  <button class="btn primary" onclick="startLesson(${i})">${S.done[u.id]?'🔄 לתרגל שוב':'▶ התחל שיעור'}</button>
+  ${u.dlg.length?`<button class="btn secondary" onclick="openDialog(${i})">💬 הדיאלוג של היחידה</button>`:''}
+  <button class="btn secondary" onclick="renderDict(${i})">📋 כל המילים ביחידה</button>`;
+  window.scrollTo(0,0);
+}
+
+/* ================= מנוע שיעור ================= */
+function startLesson(ui){
+  const u=UNITS[ui],q=[];
+  for(let c=0;c<u.list.length;c+=4){
+    const ch=u.list.slice(c,c+4);
+    ch.forEach(it=>q.push({t:'learn',it}));
+    if(ch.length>=3)q.push({t:'match',its:ch});
+    const pr=ch.map(it=>({t:pick(['listen','m2t','t2m']),it}));
+    shuffle(ch).slice(0,ch.length>=3?2:1).forEach(it=>pr.push({t:'speak',it}));
+    q.push(...shuffle(pr));
+  }
+  if(u.dlg.length)q.push({t:'dialog',ui});
+  q.push({t:'done'});
+  L={mode:'lesson',ui,q,pos:0,res:{}};
+  document.body.classList.add('inlesson');renderStep();
+}
+function startReview(free){
+  let ids=free?shuffle(Object.keys(S.srs).filter(id=>BYID[id])).slice(0,12):shuffle(dueIds()).slice(0,15);
+  if(!ids.length){go('review');return}
+  const q=ids.map(id=>({t:Math.random()<.22?'speak':pick(['listen','m2t','t2m']),it:BYID[id]}));
+  q.push({t:'done'});
+  L={mode:free?'free':'review',q,pos:0,res:{}};
+  document.body.classList.add('inlesson');renderStep();
+}
+function exitLesson(){const m=L&&L.mode;go(m==='lesson'?'home':m?'review':'home')}
+function next(){const f=$('.fb');if(f)f.remove();stopAll();L.pos++;renderStep()}
+function record(id,ok){if(!(id in L.res))L.res[id]=ok}
+function requeue(s){if(s.retry)return;let k=L.q.findIndex((x,j)=>j>L.pos&&(x.t==='dialog'||x.t==='done'));if(k<0)k=L.q.length;L.q.splice(k,0,{t:s.t,it:s.it,retry:true})}
+
+function renderStep(){
+  const s=L.q[L.pos],n=L.q.length;
+  const pct=Math.round(L.pos/Math.max(1,n-1)*100);
+  const top=`<div class="lbar"><button class="x" onclick="exitLesson()" aria-label="יציאה מהשיעור">✕</button><div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>`;
+  L.after=null;
+  app.innerHTML=top+STEP[s.t](s);
+  window.scrollTo(0,0);
+  if(L.after)setTimeout(L.after,350);
+}
+function opts(it,field){
+  const seen=new Set([it[field]]),seenTr=new Set([it.tr]),out=[it];
+  for(const o of shuffle(UNITS[it.unit].list).concat(shuffle(ALL))){if(out.length>=4)break;if(!seen.has(o[field])&&!seenTr.has(o.tr)){seen.add(o[field]);seenTr.add(o.tr);out.push(o)}}
+  return shuffle(out);
+}
+function optsHtml(s,field){
+  return `<div class="opts">${s.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="choose(${i})">${esc(o[field])}${field==='tr'&&S.settings.script?`<small class="ar" lang="ar">${esc(o.ar)}</small>`:''}</button>`).join('')}</div>`;
+}
+const playRow=id=>`<div class="row"><button class="pill" onclick="play('${id}')">🔊 השמע</button><button class="pill" onclick="play('${id}',1)">🐢 לאט</button></div>`;
+
+const STEP={
+learn(s){const it=s.it;L.after=()=>play(it.id);
+  return `<div class="card"><span class="tag">${it.big?'צליל חדש':'מילה חדשה'}</span>
+  ${it.big?`<div class="big ar" lang="ar">${esc(it.big)}</div>`:''}
+  <div class="tr">${esc(it.tr)}</div>${arHtml(it.ar)}
+  <div class="he">${esc(it.he)}</div>
+  ${it.note?`<div class="note">💡 ${esc(it.note)}</div>`:''}
+  ${playRow(it.id)}
+  ${canMic()?`<div class="row"><button class="pill" id="lmic" onclick="learnMic('${it.id}')">🎙 נסה לומר</button></div><div class="res" id="micres"></div>`:''}
+  </div><button class="btn primary" onclick="next()">הבנתי, הלאה ←</button>`},
+listen(s){s.field='he';s.opts=s.opts||opts(s.it,'he');L.after=()=>play(s.it.id);
+  return `<h2 class="q">מה שמעת?</h2><div class="center"><button class="bigplay" onclick="play('${s.it.id}')" aria-label="השמע שוב">🔊</button><button class="pill" onclick="play('${s.it.id}',1)">🐢 לאט</button></div>${optsHtml(s,'he')}`},
+m2t(s){s.field='tr';s.opts=s.opts||opts(s.it,'tr');
+  return `<h2 class="q">איך אומרים בערבית?</h2><div class="prompt">${esc(s.it.he)}</div>${optsHtml(s,'tr')}`},
+t2m(s){s.field='he';s.opts=s.opts||opts(s.it,'he');L.after=()=>play(s.it.id);
+  return `<h2 class="q">מה זה אומר?</h2><div class="card"><div class="tr">${esc(s.it.tr)}</div>${arHtml(s.it.ar)}${playRow(s.it.id)}</div>${optsHtml(s,'he')}`},
+speak(s){const it=s.it;s.tries=0;
+  return `<h2 class="q">עכשיו אתה! אמור בערבית:</h2><div class="card"><div class="he" style="font-size:24px;font-weight:800">${esc(it.he)}</div><div class="tr">${esc(it.tr)}</div>${arHtml(it.ar)}${playRow(it.id)}</div>
+  ${canMic()?`<div class="center" style="margin-top:18px"><button class="mic" id="micbtn" onclick="speakTry()" aria-label="לחץ ודבר">🎙</button><p class="hint" id="michint">לחץ ודבר</p></div><div class="res" id="micres"></div>
+     <button class="btn ghost" onclick="next()">אין לי איך לדבר עכשיו, דלג</button>`
+     :`<p class="hint" style="margin-top:14px">${SR?'🎙 המיקרופון לא זמין כאן, אז בודקים לבד:<br>':''}1. שמע &nbsp; 2. אמור בקול 2–3 פעמים &nbsp; 3. סמן</p><button class="btn primary" onclick="record('${it.id}',true);next()">✓ אמרתי בקול!</button><button class="btn ghost" onclick="next()">דלג</button>`}`},
+match(s){s.left=s.its.length;s.sel={};
+  const a=shuffle(s.its),b=shuffle(s.its);
+  return `<h2 class="q">התאם זוגות: ערבית ↔ עברית</h2><div class="match">
+  <div class="col">${a.map(it=>`<button class="mt" id="mtr-${it.id}" onclick="tapMatch('tr','${it.id}')">${esc(it.tr)}</button>`).join('')}</div>
+  <div class="col">${b.map(it=>`<button class="mt" id="mhe-${it.id}" onclick="tapMatch('he','${it.id}')">${esc(it.he)}</button>`).join('')}</div></div>`},
+dialog(s){return `<h2 class="q">💬 שיחה אמיתית</h2><p class="hint">הקש על בועה כדי לשמוע, ועל 👁 כדי לראות תרגום. נסה להבין לפני שאתה מציץ!</p>${dialogHtml(s.ui)}<button class="btn primary" onclick="next()">סיימתי ←</button>`},
+done(s){if(!s.applied){s.applied=true;L.di=finish()}
+  const di=L.di||{};
+  const r=Object.values(L.res),ok=r.filter(Boolean).length;
+  const u=L.mode==='lesson'?UNITS[L.ui]:null,nx=u?nextUnit():-1;
+  return `<div class="donebox"><div class="e">🎉</div><h1>${u?'סיימת את "'+esc(u.title)+'"!':'החזרה הושלמה!'}</h1>
+  ${r.length?`<p style="font-size:20px">${ok} מתוך ${r.length} נכון בניסיון הראשון</p>`:''}
+  ${di.isNew?`<div class="celebrate"><span class="flame">🔥</span><b>+1 יום תרגול!</b> סה״כ ${S.days.length===1?'יום אחד':S.days.length+' ימים'}</div>`:''}
+  ${di.ms?`<div class="celebrate">🏅 <b>הישג חדש: ${di.ms}</b></div>`:''}
+  ${di.goalHit?`<div class="celebrate">🎯 <b>השלמת את היעד היומי!</b></div>`:''}
+  <p class="hint">${u?'המילים נכנסו לחזרה המרווחת. מחר הן יחכו לך ב"חזרה".':'כל מילה תחזור בדיוק כשהיא מתחילה להישכח.'}</p></div>
+  ${u&&nx>=0?`<button class="btn primary" onclick="go('home');openUnit(${nx})">ליחידה הבאה: ${esc(UNITS[nx].title)} ←</button>`:''}
+  <button class="btn secondary" onclick="go('home')">לדף הבית</button>`}
+};
+
+function choose(i){
+  const s=L.q[L.pos];if(s.answered)return;s.answered=true;
+  const o=s.opts[i],ok=o.id===s.it.id||o[s.field]===s.it[s.field];
+  s.opts.forEach((x,k)=>{const b=$('#o'+k);b.disabled=true;if(x.id===s.it.id)b.classList.add('good')});
+  if(!ok){$('#o'+i).classList.add('badx');vib(120);requeue(s)}
+  record(s.it.id,ok);play(s.it.id);
+  feedback(ok,s.it);
+}
+function feedback(ok,it,msg,title){
+  const d=document.createElement('div');d.className='fb '+(ok?'ok':'bad');d.setAttribute('role','status');
+  d.innerHTML=`<div class="in"><h3>${title?title:ok?pick(['✓ נכון!','✓ מעולה!','✓ אחלא!','✓ ממתאז!']):'✗ לא נורא, זה יחזור'}</h3>
+  ${it?`<p><b>${esc(it.tr)}</b> = ${esc(it.he)}</p>`:msg?`<p>${msg}</p>`:''}
+  <button class="btn ${ok?'primary':'accent'}" onclick="next()">המשך ←</button></div>`;
+  document.body.appendChild(d);d.querySelector('button').focus({preventScroll:true});
+}
+function tapMatch(side,id){
+  const s=L.q[L.pos];const el=$(`#m${side}-${id}`);
+  document.querySelectorAll(`[id^="m${side}-"]`).forEach(b=>b.classList.remove('sel'));
+  s.sel[side]=id;el.classList.add('sel');
+  if(side==='tr')play(id);
+  if(s.sel.tr&&s.sel.he){
+    const a=$(`#mtr-${s.sel.tr}`),b=$(`#mhe-${s.sel.he}`);
+    if(s.sel.tr===s.sel.he){a.className='mt done';b.className='mt done';s.left--;
+      if(!s.left)setTimeout(()=>feedback(true,null,'כל הזוגות נכונים!'),400)}
+    else{[a,b].forEach(x=>{x.classList.remove('sel');x.classList.add('wrong');setTimeout(()=>x.classList.remove('wrong'),400)});vib(80)}
+    s.sel={};
+  }
+}
+function learnMic(id){
+  const btn=$('#lmic'),res=$('#micres');btn.textContent='👂 מקשיב...';
+  listen(BYID[id].ar,r=>{if(['not-allowed','service-not-allowed','start','audio-capture'].includes(r.error)){micBlocked=true;btn.remove();res.innerHTML='🎙 המיקרופון לא זמין כאן. פשוט אמור את המילה בקול 2–3 פעמים.';return}btn.textContent='🎙 נסה לומר';res.innerHTML=micMsg(r)});
+}
+function speakTry(){
+  const s=L.q[L.pos],btn=$('#micbtn'),res=$('#micres'),hint=$('#michint');
+  if(s.answered)return;
+  btn.classList.add('on');hint.textContent='👂 מקשיב... דבר עכשיו';res.innerHTML='';
+  listen(s.it.ar,r=>{
+    if(['not-allowed','service-not-allowed','start','audio-capture'].includes(r.error)){micBlocked=true;renderStep();return}
+    btn.classList.remove('on');hint.textContent='לחץ ודבר';res.innerHTML=micMsg(r);
+    if(r.ok){s.answered=true;record(s.it.id,true);feedback(true,s.it)}
+    else{s.tries++;if(s.tries>=2||r.error&&r.error!=='no-speech'){if(!$('.fb'))feedback(true,s.it,'','👍 ממשיכים, ההגייה תשתפר עם הזמן')}}
+  });
+}
+
+/* ================= דיאלוג ================= */
+let showAllHe=false,seqTok=0;
+function dialogHtml(ui){
+  const u=UNITS[ui];
+  return `<div class="dctl">
+   <button class="btn secondary" onclick="playSeq(${ui},false)">▶ השמע הכל</button>
+   <button class="btn secondary" onclick="playSeq(${ui},true)">🗣 מצב צל</button>
+   <button class="btn secondary" onclick="toggleAllHe()">👁 תרגום</button>
+   <button class="btn secondary" onclick="stopAll()">⏹ עצור</button></div>
+  <p class="hint" style="font-size:15px">מצב צל: הטלפון אומר שורה ומשאיר לך זמן לחזור אחריו בקול.</p>
+  <div class="dlg">${u.dlg.map((l,i)=>`<div class="bub ${l.who==='A'?'a':'b'}" id="bub${i}" role="button" tabindex="0" onclick="playLine(${ui},${i})">
+     <div class="who">${esc(u.names[l.who])}</div><div class="btr">${esc(l.tr)}</div>${arHtml(l.ar,'bar')}
+     <div class="bhe ${showAllHe?'':'hid'}" id="he${i}">${esc(l.he)}</div>
+     <button class="eye" onclick="event.stopPropagation();toggleHe(${i})" aria-label="הצג תרגום">👁</button></div>`).join('')}</div>`;
+}
+function openDialog(ui){stopAll();app.innerHTML=`<button class="back" onclick="openUnit(${ui})">→ חזרה ליחידה</button><h1>💬 ${esc(UNITS[ui].title)}</h1>${dialogHtml(ui)}`;window.scrollTo(0,0)}
+function hl(i){document.querySelectorAll('.bub').forEach(b=>b.classList.remove('playing'));if(i>=0){const b=$('#bub'+i);if(b){b.classList.add('playing');b.scrollIntoView({block:'center',behavior:'smooth'})}}}
+function playLine(ui,i){seqTok++;hl(i);speak(UNITS[ui].dlg[i].ar,{onend:()=>hl(-1)})}
+function toggleHe(i){$('#he'+i).classList.toggle('hid')}
+function toggleAllHe(){showAllHe=!showAllHe;document.querySelectorAll('.bhe').forEach(e=>e.classList.toggle('hid',!showAllHe))}
+function playSeq(ui,shadow){
+  const tok=++seqTok,d=UNITS[ui].dlg;let k=0;
+  const step=()=>{if(tok!==seqTok)return;if(k>=d.length){hl(-1);return}
+    const i=k++;hl(i);
+    speak(d[i].ar,{onend:()=>{if(tok!==seqTok)return;setTimeout(step,shadow?Math.max(1800,d[i].tr.length*170):450)}})};
+  step();
+}
+function stopAll(){seqTok++;try{TTS&&speechSynthesis.cancel()}catch(e){}try{rec&&rec.abort()}catch(e){}}
+
+/* ================= סיום וחזרה מרווחת ================= */
+function finish(){
+  if(L.mode==='lesson'){const u=UNITS[L.ui];S.done[u.id]=true;delete S.skip[u.id];
+    u.list.forEach(it=>{if(!S.srs[it.id])S.srs[it.id]={box:1,due:addDays(1)};else if(L.res[it.id]===false)S.srs[it.id]={box:1,due:addDays(1)}})}
+  else if(L.mode==='review'){for(const id in L.res){const c=S.srs[id];if(!c)continue;
+    if(L.res[id]){c.box=Math.min(5,c.box+1)}else c.box=1;c.due=addDays(INT[c.box])}}
+  const di=markDay();save();return di;
+}
+function renderReview(){
+  const due=dueIds().length,learned=Object.keys(S.srs).length;
+  const boxes=[1,2,3,4,5].map(b=>Object.values(S.srs).filter(c=>c.box===b).length);
+  app.innerHTML=`<h1>🔁 חזרה</h1>
+  <p class="hint" style="text-align:right">כל מילה חוזרת אחרי יום, 3 ימים, שבוע, שבועיים וחודש. בדיוק כשהיא מתחילה להישכח.</p>
+  ${due?`<button class="btn accent" onclick="startReview(false)">התחל חזרה יומית · ${due} מילים</button>`:learned?`<div class="tip"><b>🎉 אין מילים לחזרה היום</b><p>אפשר ללמוד יחידה חדשה או לעשות תרגול חופשי.</p></div>`:`<div class="tip"><b>עוד אין מילים לחזרה</b><p>סיים יחידה אחת והמילים שלה יופיעו כאן מחר.</p></div>`}
+  ${learned?`<button class="btn secondary" onclick="startReview(true)">🎲 תרגול חופשי (12 מילים)</button>`:`<button class="btn primary" onclick="go('home')">לרשימת היחידות</button>`}
+  ${learned?`<div class="set"><h3>איפה המילים שלך</h3>${['חדשות','מתחזקות','בדרך','כמעט שם','בזיכרון'].map((n,i)=>`<label><span>${n}</span><b>${boxes[i]}</b></label>`).join('')}</div>`:''}`;
+}
+
+/* ================= מילון ================= */
+function renderDict(ui){
+  const unitMode=typeof ui==='number';
+  app.innerHTML=`${unitMode?`<button class="back" onclick="openUnit(${ui})">→ חזרה ליחידה</button><h1>📋 ${esc(UNITS[ui].title)}</h1>`:`<h1>📖 מילון</h1><input class="search" id="q" type="search" placeholder="חיפוש בעברית או בתעתיק…" oninput="dictList()" aria-label="חיפוש">`}<div id="dl"></div>`;
+  dictList(unitMode?ui:undefined);
+}
+function dictList(ui){
+  const q=($('#q')&&$('#q').value||'').trim();
+  const seen=new Set();
+  const src=(typeof ui==='number'?UNITS[ui].list:ALL).filter(it=>{const k=it.ar+'|'+it.he;if(seen.has(k))return false;seen.add(k);return !q||it.he.includes(q)||it.tr.includes(q)||norm(it.ar).includes(norm(q))});
+  $('#dl').innerHTML=src.length?src.map(it=>`<button class="wrow" onclick="play('${it.id}')"><span aria-hidden="true">🔊</span><div class="w"><b>${esc(it.tr)}</b>${S.settings.script?`<span class="ar" lang="ar">${esc(it.ar)}</span>`:''}<small>${esc(it.he)}${it.note?' · '+esc(it.note):''}</small></div>${S.srs[it.id]?'<span class="badge">✓</span>':''}</button>`).join(''):`<p class="hint">לא נמצא. נסה מילה אחרת.</p>`;
+}
+
+/* ================= הגדרות ================= */
+let resetArmed=false;
+function renderSettings(){
+  const st=S.settings;
+  app.innerHTML=`<h1>⚙️ הגדרות</h1>
+  <div class="set"><h3>תצוגה וקול</h3>
+   <label><span>להציג כתב ערבי</span><input type="checkbox" ${st.script?'checked':''} onchange="setS('script',this.checked)"></label>
+   <label><span>מהירות דיבור: <b id="rv">${st.rate}</b></span><input type="range" min="0.5" max="1.1" step="0.05" value="${st.rate}" oninput="$('#rv').textContent=this.value" onchange="setS('rate',+this.value)"></label>
+   <label><span>קול</span><select onchange="setS('voice',this.value)"><option value="">אוטומטי</option>${voices.map(v=>`<option ${v.name===st.voice?'selected':''} value="${esc(v.name)}">${esc(v.name)} (${v.lang})</option>`).join('')}</select></label>
+   <button class="btn secondary" onclick="speak('مرحبا، كيفك؟ يعطيك العافية')">🔊 בדיקת קול</button>
+   ${voiceWarn()}
+  </div>
+  <div class="set"><h3>רמה ותוכנית</h3>
+   <label><span>הרמה שלך</span><b>${S.level===null?'עוד לא נבדקה':LEVELS[S.level].emoji+' '+LEVELS[S.level].name}</b></label>
+   <label><span>יעד יומי</span><select onchange="setGoal(+this.value)">${[1,2,3].map(g=>`<option value="${g}" ${g===S.goal?'selected':''}>${GOALS[g]}</option>`).join('')}</select></label>
+   <button class="btn secondary" onclick="startTest()">📝 ${S.level===null?'למבחן רמה':'מבחן רמה מחדש'}</button>
+  </div>
+  <div class="set"><h3>זיהוי דיבור</h3>
+   ${SR?`<label><span>ניב לזיהוי</span><select onchange="setS('mic',this.value)">${[['ar-IL','ערבית (ישראל)'],['ar-PS','ערבית (פלסטינית)'],['ar-JO','ערבית (ירדן)']].map(([v,n])=>`<option value="${v}" ${v===st.mic?'selected':''}>${n}</option>`).join('')}</select></label>`
+     :`<p class="hint" style="text-align:right">הדפדפן הזה לא תומך בזיהוי דיבור. בתרגילי הדיבור תשמע, תגיד בקול ותסמן בעצמך. בכרום באנדרואיד הזיהוי עובד.</p>`}
+  </div>
+  <div class="set"><h3>מקרא תעתיק</h3><table class="leg">
+   ${[['ح','ח','ח עמוקה מהגרון'],['خ','ח\'','ח/כ רגילה'],['ع','ע','ע גרונית'],['غ','ע\'','כמו ר גרונית'],['ج','ג\'','כמו ג\'ירפה'],['ق','ק','k (במשולש)'],['ص','צ','S כבדה, לא ts'],['ض','צ\'','D כבדה'],['ط','ט','T כבדה'],['ث','ת','במדוברת: ת'],['ذ','ד','במדוברת: ד'],['ك','כּ','k (בסוף מילה)']].map(r=>`<tr><td class="ar" lang="ar">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
+  </table></div>
+  <div class="set"><h3>על האפליקציה</h3><p style="margin:0;font-size:16px">ערבית מדוברת של ערביי ארץ ישראל, בדגש על המשולש. השיטה: מילים תאומות, חזרה מרווחת, שליפה פעילה, חזרה בקול (shadowing) ודיאלוגים. ההקראה היא קול המכשיר, ולכן ייתכנו הבדלים קטנים מההגייה המקומית. התעתיק הוא הקובע.</p></div>
+  <button class="btn ghost" id="rst" onclick="resetAll()">איפוס כל ההתקדמות</button>`;
+}
+function setS(k,v){S.settings[k]=v;save()}
+function setGoal(g){S.goal=g;save()}
+function resetAll(){if(!resetArmed){resetArmed=true;$('#rst').textContent='בטוח? לחץ שוב לאיפוס';setTimeout(()=>{resetArmed=false},4000);return}
+  S.done={};S.srs={};S.days=[];S.level=null;S.skip={};S.log={d:'',n:0};save();resetArmed=false;go('home')}
+
+go('home');
+</script>
+</body>
+</html>
