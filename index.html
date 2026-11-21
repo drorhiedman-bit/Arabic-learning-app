@@ -22,7 +22,7 @@ h2{font-size:21px}
 .hero{background:linear-gradient(160deg,#2F6B4F,#3E8462);color:#fff;border-radius:24px;padding:22px 20px;position:relative;overflow:hidden}
 .hero .logo{position:absolute;left:14px;top:-4px;font-size:72px;opacity:.18}
 .hero p{margin:.3em 0 0;opacity:.95;font-size:16px}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
 .stat{background:#fff;border-radius:16px;padding:12px 6px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .stat b{display:block;font-size:26px;color:var(--olive);line-height:1.2}
 .stat span{font-size:14px;color:var(--muted)}
@@ -119,31 +119,6 @@ table.leg td.ar{font-size:24px;text-align:center;width:48px}
 table.leg td:nth-child(2){font-weight:800;width:44px;text-align:center}
 .donebox{text-align:center;padding:20px 0}
 .donebox .e{font-size:80px}
-
-.fire{background:#fff;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06);border:2px solid #F3D7A8}
-.fire.lit{background:linear-gradient(160deg,#FFF6E8,#FFE9CC);border-color:#E9A54C}
-.fh{display:flex;align-items:center;gap:12px}
-.flame{font-size:46px;line-height:1}
-.fire.lit .flame{animation:flick 1.6s ease-in-out infinite}
-.fh b{font-size:34px;color:#B35A00;line-height:1}.fh span{font-weight:700}
-.fh small{display:block;color:var(--muted);font-size:14px}
-.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:14px 0 8px;text-align:center}
-.day i{display:grid;place-items:center;width:36px;height:36px;margin:0 auto;border-radius:50%;background:#EFE8DA;font-style:normal;color:#fff;font-weight:800}
-.day.on i{background:#E07B16}
-.day.td i{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--olive)}
-.day span{font-size:13px;color:var(--muted)}
-.today{font-weight:700;text-align:center;margin:4px 0}
-.mbar{height:10px;background:#EFE3CE;border-radius:99px;overflow:hidden;margin-top:10px}
-.mbar i{display:block;height:100%;background:#E07B16;border-radius:99px}
-.ms{display:block;text-align:center;color:var(--muted);font-size:14px;margin-top:4px}
-.lvl{display:inline-block;background:rgba(255,255,255,.2);border-radius:99px;padding:3px 12px;font-size:15px;font-weight:700;margin-top:8px}
-.plan{margin:6px 0 0;padding-inline-start:22px}.plan li{margin:6px 0}.plan small{color:var(--muted)}
-.opt.picked{border-color:var(--olive);background:var(--olive2)}
-.opt.idk{color:var(--muted);font-weight:400;font-size:18px;border-style:dashed}
-.celebrate{text-align:center;background:linear-gradient(160deg,#FFF6E8,#FFE2BD);border-radius:20px;padding:14px;margin:10px 0;font-size:20px}
-.celebrate .flame{font-size:56px;display:block;animation:pop .6s}
-@keyframes flick{50%{transform:scale(1.08) rotate(-3deg)}}
-@keyframes pop{0%{transform:scale(.2)}70%{transform:scale(1.25)}}
 @keyframes up{from{transform:translateY(100%)}}
 @keyframes pulse{50%{transform:scale(1.08);box-shadow:0 0 0 14px rgba(201,119,31,.15)}}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
@@ -419,27 +394,17 @@ UNITS.forEach((u,ui)=>{
   u.names=Object.assign({A:'אני',B:'חבר'},u.names||{});
 });
 
-/* ================= רמות ================= */
-const LEVELS=[
- {name:'מתחיל',emoji:'🌱',units:[0,1,2,3],desc:'מתחילים מהבסיס: מילים שכבר מכירים, צלילים, ברכות והיכרות.'},
- {name:'צעדים ראשונים',emoji:'🌿',units:[4,5,6,7],desc:'את הבסיס אתה מכיר. עכשיו בונים אוצר מילים: מילים תאומות, מילים מטעות, מספרים ומשפחה.'},
- {name:'מסתדר',emoji:'🌳',units:[8,9,10],desc:'אתה כבר מבין לא מעט. עכשיו שואלים שאלות, מסתדרים ביומיום וקונים בשוק.'},
- {name:'מדבר',emoji:'🫒',units:[11],desc:'אתה מסתדר יפה! נשארו הביטויים של הרחוב והמשולש, וחזרה כדי לשמור על מה שיש.'}];
-const GOALS={1:'5 דקות',2:'10 דקות',3:'15 דקות ומעלה'};
-
 /* ================= שמירה ================= */
 const KEY='yalla-medabrim-v1';
 const INT=[0,1,3,7,16,35];
-let S={done:{},srs:{},days:[],level:null,skip:{},goal:2,log:{d:'',n:0},settings:{script:true,rate:0.85,voice:'',mic:'ar-IL'}};
+let S={done:{},srs:{},days:[],settings:{script:true,rate:0.85,voice:'',mic:'ar-IL'}};
 try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d){S=Object.assign(S,d);S.settings=Object.assign({script:true,rate:0.85,voice:'',mic:'ar-IL'},d.settings||{})}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const pad=n=>String(n).padStart(2,'0');
 function dstr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 const today=()=>dstr(new Date());
 function addDays(n){const d=new Date();d.setDate(d.getDate()+n);return dstr(d)}
-function markDay(){const d=today(),isNew=!S.days.includes(d);if(isNew)S.days.push(d);if(S.log.d!==d)S.log={d,n:0};S.log.n++;return {isNew,goalHit:S.log.n===S.goal,ms:isNew&&MNAME[S.days.length]}}
-const MILES=[1,3,7,14,21,30,50,75,100,150,200,365];
-const MNAME={1:'צעד ראשון',3:'מתחממים',7:'שבוע של ערבית',14:'שבועיים של ערבית',21:'שלושה שבועות',30:'חודש של ערבית!',50:'חמישים ימים',75:'75 ימים',100:'100 ימי תרגול!',150:'150 ימים',200:'200 ימים',365:'שנה של ערבית!'};
+function markDay(){const d=today();if(!S.days.includes(d))S.days.push(d)}
 const dueIds=()=>Object.keys(S.srs).filter(id=>BYID[id]&&S.srs[id].due<=today());
 
 /* ================= עזרים ================= */
@@ -500,118 +465,37 @@ function micMsg(r){
 
 /* ================= ניווט ================= */
 let cur='home',L=null;
-function go(p){stopAll();L=null;T=null;document.body.classList.remove('inlesson');cur=p;
+function go(p){stopAll();L=null;document.body.classList.remove('inlesson');cur=p;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.go===p));
   ({home:renderHome,review:renderReview,dict:()=>renderDict(),settings:renderSettings})[p]();window.scrollTo(0,0)}
 
 /* ================= בית ================= */
-function nextUnit(){return UNITS.findIndex(u=>!S.done[u.id]&&!S.skip[u.id])}
+function nextUnit(){const i=UNITS.findIndex(u=>!S.done[u.id]);return i}
 function voiceWarn(){
   if(!TTS)return `<div class="warn">🔇 הדפדפן הזה לא תומך בהקראה. נסה Chrome באנדרואיד או Safari באייפון.</div>`;
   if(allVoicesLoaded&&!voices.length)return `<div class="warn">🔇 לא נמצא קול ערבי במכשיר. <b>באנדרואיד:</b> הגדרות ← נגישות / שפה ← פלט המרת טקסט לדיבור ← מנוע Google ← התקנת נתוני קול ← ערבית. <b>באייפון:</b> הגדרות ← נגישות ← תוכן מוקרא ← קולות ← ערבית.</div>`;
   return '';
 }
-function practiceCard(){
-  const n=S.days.length,td=today(),did=S.days.includes(td),cnt=S.log.d===td?S.log.n:0;
-  const nm=MILES.find(m=>m>n),prev=[...MILES].reverse().find(m=>m<=n)||0;
-  const wk=[];for(let k=6;k>=0;k--){const dt=new Date();dt.setDate(dt.getDate()-k);const ds=dstr(dt);wk.push({on:S.days.includes(ds),td:k===0,l:'אבגדהוש'[dt.getDay()]})}
-  return `<div class="fire ${did?'lit':''}">
-   <div class="fh"><span class="flame" aria-hidden="true">${did?'🔥':'🪵'}</span><div><b>${n}</b> <span>ימי תרגול</span><small>לא חייב ברצף: כל יום שהתאמנת נספר</small></div></div>
-   <div class="week" aria-label="השבוע האחרון">${wk.map(x=>`<div class="day ${x.on?'on':''} ${x.td?'td':''}"><i>${x.on?'✓':''}</i><span>${x.td?'היום':x.l+"'"}</span></div>`).join('')}</div>
-   <div class="today">${did?(cnt>=S.goal?`🎯 השלמת את היעד היומי (${cnt}/${S.goal})`:`✓ התאמנת היום · יעד יומי: ${cnt}/${S.goal}`):`עוד לא התאמנת היום · יעד: ${S.goal} ${S.goal>1?'פעילויות':'פעילות'}`}</div>
-   ${nm?`<div class="mbar"><i style="width:${Math.round((n-prev)/(nm-prev)*100)}%"></i></div><small class="ms">עוד ${nm-n} ${nm-n===1?'יום':'ימים'} להישג: 🏅 ${MNAME[nm]}</small>`:''}
-  </div>`;
-}
-function unitBtn(i,nx){const u=UNITS[i];
-  return `<button class="unit ${i===nx?'next':''}" onclick="openUnit(${i})">
-     <div class="em" aria-hidden="true">${u.emoji}</div>
-     <div class="t"><b>${esc(u.title)}</b><small>${esc(u.sub)} · ${u.list.length} מילים</small></div>
-     ${S.done[u.id]?'<span class="badge">✓ הושלם</span>':S.skip[u.id]?'<span class="badge">✓ כבר יודע</span>':i===nx?'<span class="badge nx">הבא בתור</span>':''}
-   </button>`}
 function renderHome(){
-  const learned=Object.keys(S.srs).length,due=dueIds().length,nx=nextUnit(),lv=S.level;
-  const fresh=lv===null&&!learned;
+  const learned=Object.keys(S.srs).length,due=dueIds().length,nx=nextUnit();
   app.innerHTML=`
   <header class="hero"><div class="logo ar" aria-hidden="true">يلا</div>
     <h1>יאללה מדברים</h1>
-    <p>ערבית מדוברת של ארץ ישראל, בתעתיק עברי, בקול ובשלבים. קודם מדברים, אחר כך קוראים.</p>
-    ${lv!==null?`<span class="lvl">${LEVELS[lv].emoji} רמה ${lv+1}: ${LEVELS[lv].name}</span>`:''}</header>
-  ${fresh?`<div class="tip"><b>🧭 בוא נמצא את הרמה שלך</b><p>מבחן קצר של 3 דקות, ואחריו תוכנית לימוד שמתאימה בדיוק לך.</p>
-     <button class="btn primary" onclick="startTest()">📝 למבחן רמה</button>
-     <button class="btn secondary" onclick="setZero()">🌱 אני מתחיל מאפס</button></div>`:''}
-  ${practiceCard()}
-  ${voiceWarn()}
-  ${due?`<button class="btn accent" onclick="startReview(false)">🔁 חזרה יומית · ${due} מילים</button>`:''}
-  ${!fresh?(nx>=0?`<button class="btn primary" onclick="openUnit(${nx})">▶ השיעור הבא שלך: ${esc(UNITS[nx].title)}</button>`:`<div class="tip"><b>🏆 סיימת את כל התוכנית!</b><p>המשך לחזור כל יום, ונסה לדבר עם שכנים, מוכרים ועמיתים.</p></div>`):''}
+    <p>ערבית מדוברת של ארץ ישראל, בתעתיק עברי, בקול ובשלבים. קודם מדברים, אחר כך קוראים.</p></header>
   <div class="stats">
+    <div class="stat"><b>${S.days.length}</b><span>ימי תרגול</span></div>
     <div class="stat"><b>${learned}</b><span>מילים שלמדת</span></div>
     <div class="stat"><b>${due}</b><span>לחזרה היום</span></div>
   </div>
-  ${LEVELS.map((V,li)=>`<div class="sec">${V.emoji} רמה ${li+1}: ${V.name}${lv===li?' · אתה כאן':''}</div>${V.units.map(i=>unitBtn(i,nx)).join('')}`).join('')}`;
-}
-function setZero(){S.level=0;S.skip={};save();renderHome()}
-
-/* ================= מבחן רמה ================= */
-let T=null;
-function startTest(){stopAll();L=null;document.body.classList.add('inlesson');
-  T={step:'self',lv:0,qs:[],pos:0,score:[0,0,0,0],wrong:[],n:0};renderTest()}
-function levelQs(li){
-  const seen=new Set(),pool=shuffle(LEVELS[li].units.flatMap(u=>UNITS[u].list)).filter(it=>{if(seen.has(it.tr))return false;seen.add(it.tr);return true}).slice(0,3);
-  const types=shuffle(['listen','m2t','listen']);
-  return pool.map((it,k)=>{const t=types[k],f=t==='listen'?'he':'tr';return {t,it,f,lv:li,opts:opts(it,f)}});
-}
-function renderTest(){
-  const pct=T.step==='q'?Math.round(T.n/12*100):0;
-  const top=`<div class="lbar"><button class="x" onclick="go('home')" aria-label="יציאה מהמבחן">✕</button><div class="prog"><i style="width:${pct}%"></i></div></div>`;
-  if(T.step==='self'){app.innerHTML=top+`<h1>📝 מבחן רמה</h1><h2 class="q">כמה ערבית אתה יודע היום?</h2><div class="opts">
-    ${['🌱 בכלל לא, מתחיל מאפס','🙂 כמה מילים מהסלנג ומהרחוב','🌳 מסתדר במשפטים פשוטים','🫒 מנהל שיחות קצרות'].map((t,i)=>`<button class="opt" onclick="T.self=${i};T.step='goal';renderTest()">${t}</button>`).join('')}</div>`;return}
-  if(T.step==='goal'){app.innerHTML=top+`<h2 class="q">כמה זמן ביום תרצה להתאמן?</h2><div class="opts">
-    ${[1,2,3].map(g=>`<button class="opt" onclick="S.goal=${g};testGo()">⏱ ${GOALS[g]}</button>`).join('')}</div><p class="hint">אפשר לשנות בכל רגע בהגדרות.</p>`;return}
-  const q=T.qs[T.pos];
-  app.innerHTML=top+`<p class="hint">שאלה ${T.n+1} · אם לא יודעים, זה בסדר. לוחצים "לא יודע".</p>`+
-   (q.t==='listen'?`<h2 class="q">מה שמעת?</h2><div class="center"><button class="bigplay" onclick="play('${q.it.id}')" aria-label="השמע שוב">🔊</button></div>`
-     :`<h2 class="q">איך אומרים בערבית?</h2><div class="prompt">${esc(q.it.he)}</div>`)+
-   `<div class="opts">${q.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="testAns(${i})">${esc(o[q.f])}</button>`).join('')}
-    <button class="opt idk" id="oidk" onclick="testAns(-1)">🤷 לא יודע</button></div>`;
-  window.scrollTo(0,0);
-  if(q.t==='listen')setTimeout(()=>play(q.it.id),350);
-}
-function testGo(){if(T.self===0){finishTest(0);return}T.step='q';T.qs=levelQs(0);T.pos=0;renderTest()}
-function testAns(i){
-  const q=T.qs[T.pos];if(q.done)return;q.done=true;
-  const ok=i>=0&&q.opts[i].id===q.it.id;
-  (i>=0?$('#o'+i):$('#oidk')).classList.add('picked');
-  if(ok)T.score[q.lv]++;else T.wrong.push(q.it.id);
-  T.n++;
-  setTimeout(()=>{
-    if(!T)return;
-    T.pos++;
-    if(T.pos<T.qs.length){renderTest();return}
-    if(T.score[T.lv]>=2&&T.lv<3){T.lv++;T.qs=levelQs(T.lv);T.pos=0;renderTest();return}
-    finishTest(T.score[T.lv]>=2?T.lv+1:T.lv);
-  },450);
-}
-function finishTest(passed){
-  S.level=Math.min(passed,3);S.skip={};
-  for(let li=0;li<passed;li++)LEVELS[li].units.forEach(ui=>{const u=UNITS[ui];if(!S.done[u.id])S.skip[u.id]=true;
-    u.list.forEach(it=>{if(!S.srs[it.id])S.srs[it.id]={box:2,due:addDays(2)}})});
-  T.wrong.forEach(id=>{if(S.srs[id])S.srs[id]={box:1,due:today()}});
-  const di=markDay();save();
-  const lv=LEVELS[S.level],todo=UNITS.filter(u=>!S.done[u.id]&&!S.skip[u.id]);
-  const upd={1:.5,2:1,3:1.5}[S.goal],days=Math.ceil(todo.length/upd);
-  const answered=T.n,right=T.score.reduce((a,b)=>a+b,0);
-  app.innerHTML=`<div class="donebox"><div class="e">${lv.emoji}</div><h1>הרמה שלך: ${lv.name}</h1>
-    ${answered?`<p style="font-size:19px">ענית נכון על ${right} מתוך ${answered} שאלות</p>`:''}<p>${lv.desc}</p></div>
-  ${di.isNew?`<div class="celebrate"><span class="flame">🔥</span><b>+1 יום תרגול!</b> סה״כ ${S.days.length===1?'יום אחד':S.days.length+' ימים'}</div>`:''}
-  ${passed>0?`<div class="tip"><b>✓ דילגנו על ${Object.keys(S.skip).length} יחידות שאתה כבר מכיר</b><p>המילים שלהן נכנסו לחזרה כדי לוודא שהן באמת יושבות.${T.wrong.length?' מילים שטעית בהן יחכו לך כבר היום.':''}</p></div>`:''}
-  <div class="set"><h3>📅 התוכנית האישית שלך</h3>
-   ${todo.length?`<p style="margin:0">יעד יומי: ${GOALS[S.goal]}. בקצב הזה תסיים את התוכנית בעוד כ-${days} ימי תרגול.</p>
-   <ol class="plan">${todo.map((u,k)=>`<li>${u.emoji} ${esc(u.title)} <small>· יום ${Math.floor(k/upd)+1}</small></li>`).join('')}</ol>`
-   :`<p style="margin:0">אתה כבר מכיר את כל החומר! עכשיו תתמקד בחזרה היומית ובדיאלוגים במצב צל.</p>`}
-  </div>
-  ${todo.length?`<button class="btn primary" onclick="go('home');openUnit(${UNITS.indexOf(todo[0])})">▶ מתחילים: ${esc(todo[0].title)}</button>`:''}
-  <button class="btn secondary" onclick="go('home')">לדף הבית</button>`;
-  window.scrollTo(0,0);T=null;
+  ${voiceWarn()}
+  ${due?`<button class="btn accent" onclick="startReview(false)">🔁 חזרה יומית · ${due} מילים</button>`:''}
+  ${nx>=0?`<button class="btn primary" onclick="openUnit(${nx})">${nx===0&&!learned?'▶ בוא נתחיל!':'▶ להמשיך: '+esc(UNITS[nx].title)}</button>`:`<div class="tip"><b>🏆 סיימת את כל היחידות!</b><p>המשך לחזור כל יום, ונסה לדבר עם שכנים, מוכרים ועמיתים.</p></div>`}
+  <div class="sec">הדרך שלך</div>
+  ${UNITS.map((u,i)=>`<button class="unit ${i===nx?'next':''}" onclick="openUnit(${i})">
+     <div class="em" aria-hidden="true">${u.emoji}</div>
+     <div class="t"><b>${i}. ${esc(u.title)}</b><small>${esc(u.sub)} · ${u.list.length} מילים</small></div>
+     ${S.done[u.id]?'<span class="badge">✓ הושלם</span>':i===nx?'<span class="badge nx">הבא בתור</span>':''}
+   </button>`).join('')}`;
 }
 
 /* ================= יחידה ================= */
@@ -703,15 +587,11 @@ match(s){s.left=s.its.length;s.sel={};
   <div class="col">${a.map(it=>`<button class="mt" id="mtr-${it.id}" onclick="tapMatch('tr','${it.id}')">${esc(it.tr)}</button>`).join('')}</div>
   <div class="col">${b.map(it=>`<button class="mt" id="mhe-${it.id}" onclick="tapMatch('he','${it.id}')">${esc(it.he)}</button>`).join('')}</div></div>`},
 dialog(s){return `<h2 class="q">💬 שיחה אמיתית</h2><p class="hint">הקש על בועה כדי לשמוע, ועל 👁 כדי לראות תרגום. נסה להבין לפני שאתה מציץ!</p>${dialogHtml(s.ui)}<button class="btn primary" onclick="next()">סיימתי ←</button>`},
-done(s){if(!s.applied){s.applied=true;L.di=finish()}
-  const di=L.di||{};
+done(s){if(!s.applied){s.applied=true;finish()}
   const r=Object.values(L.res),ok=r.filter(Boolean).length;
   const u=L.mode==='lesson'?UNITS[L.ui]:null,nx=u?nextUnit():-1;
   return `<div class="donebox"><div class="e">🎉</div><h1>${u?'סיימת את "'+esc(u.title)+'"!':'החזרה הושלמה!'}</h1>
   ${r.length?`<p style="font-size:20px">${ok} מתוך ${r.length} נכון בניסיון הראשון</p>`:''}
-  ${di.isNew?`<div class="celebrate"><span class="flame">🔥</span><b>+1 יום תרגול!</b> סה״כ ${S.days.length===1?'יום אחד':S.days.length+' ימים'}</div>`:''}
-  ${di.ms?`<div class="celebrate">🏅 <b>הישג חדש: ${di.ms}</b></div>`:''}
-  ${di.goalHit?`<div class="celebrate">🎯 <b>השלמת את היעד היומי!</b></div>`:''}
   <p class="hint">${u?'המילים נכנסו לחזרה המרווחת. מחר הן יחכו לך ב"חזרה".':'כל מילה תחזור בדיוק כשהיא מתחילה להישכח.'}</p></div>
   ${u&&nx>=0?`<button class="btn primary" onclick="go('home');openUnit(${nx})">ליחידה הבאה: ${esc(UNITS[nx].title)} ←</button>`:''}
   <button class="btn secondary" onclick="go('home')">לדף הבית</button>`}
@@ -792,11 +672,11 @@ function stopAll(){seqTok++;try{TTS&&speechSynthesis.cancel()}catch(e){}try{rec&
 
 /* ================= סיום וחזרה מרווחת ================= */
 function finish(){
-  if(L.mode==='lesson'){const u=UNITS[L.ui];S.done[u.id]=true;delete S.skip[u.id];
+  if(L.mode==='lesson'){const u=UNITS[L.ui];S.done[u.id]=true;
     u.list.forEach(it=>{if(!S.srs[it.id])S.srs[it.id]={box:1,due:addDays(1)};else if(L.res[it.id]===false)S.srs[it.id]={box:1,due:addDays(1)}})}
   else if(L.mode==='review'){for(const id in L.res){const c=S.srs[id];if(!c)continue;
     if(L.res[id]){c.box=Math.min(5,c.box+1)}else c.box=1;c.due=addDays(INT[c.box])}}
-  const di=markDay();save();return di;
+  markDay();save();
 }
 function renderReview(){
   const due=dueIds().length,learned=Object.keys(S.srs).length;
@@ -833,11 +713,6 @@ function renderSettings(){
    <button class="btn secondary" onclick="speak('مرحبا، كيفك؟ يعطيك العافية')">🔊 בדיקת קול</button>
    ${voiceWarn()}
   </div>
-  <div class="set"><h3>רמה ותוכנית</h3>
-   <label><span>הרמה שלך</span><b>${S.level===null?'עוד לא נבדקה':LEVELS[S.level].emoji+' '+LEVELS[S.level].name}</b></label>
-   <label><span>יעד יומי</span><select onchange="setGoal(+this.value)">${[1,2,3].map(g=>`<option value="${g}" ${g===S.goal?'selected':''}>${GOALS[g]}</option>`).join('')}</select></label>
-   <button class="btn secondary" onclick="startTest()">📝 ${S.level===null?'למבחן רמה':'מבחן רמה מחדש'}</button>
-  </div>
   <div class="set"><h3>זיהוי דיבור</h3>
    ${SR?`<label><span>ניב לזיהוי</span><select onchange="setS('mic',this.value)">${[['ar-IL','ערבית (ישראל)'],['ar-PS','ערבית (פלסטינית)'],['ar-JO','ערבית (ירדן)']].map(([v,n])=>`<option value="${v}" ${v===st.mic?'selected':''}>${n}</option>`).join('')}</select></label>`
      :`<p class="hint" style="text-align:right">הדפדפן הזה לא תומך בזיהוי דיבור. בתרגילי הדיבור תשמע, תגיד בקול ותסמן בעצמך. בכרום באנדרואיד הזיהוי עובד.</p>`}
@@ -849,9 +724,8 @@ function renderSettings(){
   <button class="btn ghost" id="rst" onclick="resetAll()">איפוס כל ההתקדמות</button>`;
 }
 function setS(k,v){S.settings[k]=v;save()}
-function setGoal(g){S.goal=g;save()}
 function resetAll(){if(!resetArmed){resetArmed=true;$('#rst').textContent='בטוח? לחץ שוב לאיפוס';setTimeout(()=>{resetArmed=false},4000);return}
-  S.done={};S.srs={};S.days=[];S.level=null;S.skip={};S.log={d:'',n:0};save();resetArmed=false;go('home')}
+  S.done={};S.srs={};S.days=[];save();resetArmed=false;go('home')}
 
 go('home');
 </script>
