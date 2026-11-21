@@ -1,0 +1,26 @@
+name: Generate Arabic audio
+on:
+  push:
+    paths: ["tts/**"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: tts-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install edge-tts
+      - run: python tts/gen.py
+      - name: Commit audio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898+github-actions[bot]@users.noreply.github.com"
+          git add audio
+          git diff --cached --quiet || (git commit -m "Generate Arabic audio" && git push)
