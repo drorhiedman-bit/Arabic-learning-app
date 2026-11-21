@@ -850,9 +850,16 @@ const Store = { tts: null };
 const AUD = { keys: new Set(), voice: "" };
 function fnv(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16).padStart(8, "0"); }
 fetch("audio/manifest.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(m => { if (m && m.keys) { AUD.keys = new Set(m.keys); AUD.voice = m.voice || ""; if (VIEW === "progress") renderProgress(); } }).catch(() => { });
-function speakFile(key, rate) {
+let BUNDLE = null; // preview inside Claude: one bundled file instead of hundreds
+async function audioUrl(key) {
+  if (!IN_FRAME) return "audio/" + key + ".mp3";
+  if (!BUNDLE) BUNDLE = fetch("audio/bundle.json").then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  const b = await BUNDLE; return b[key] || "audio/" + key + ".mp3";
+}
+async function speakFile(key, rate) {
+  const url = await audioUrl(key);
   return new Promise(res => {
-    const a = new Audio("audio/" + key + ".mp3");
+    const a = new Audio(url);
     a.playbackRate = Math.max(0.5, Math.min(1.3, rate)); TTS.audio = a;
     let done = false; const fin = ok => { if (!done) { done = true; res(ok); } };
     a.onended = () => fin(true); a.onerror = () => fin(false); a.play().catch(() => fin(false));
